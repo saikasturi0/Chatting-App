@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { createBrowserRouter, Navigate, RouterProvider, Routes } from "react-router-dom"
 import Cookies from 'js-cookie';
-import Chat from '../components/Chat'
+import Chat from '../components/Chat.jsx'
 import './App.css'
-import Login from '../components/Login'
-import Loader from '../components/loader'
+import Login from '../components/Login.jsx'
+import Loader from '../components/Loader.jsx'
 import RequireAuth from '../components/RequireAuth';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-
-
-
 
 //main
 const App = () => {
@@ -43,11 +40,6 @@ const routes = createBrowserRouter(
     {
       path: "/chatting",
       element: <Chat />
-      // element: loading ? ( <Loader /> ) : isAuthenticated ? (<Navigate to="/chatting" />) : (
-        // <RequireAuth isAuthenticated={isAuthenticated}>
-        //   <Chat />
-        // </RequireAuth>
-    // )
     },
   ],
 )

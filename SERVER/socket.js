@@ -21,8 +21,7 @@ const onlineusers = {};
 io.on("connection",(socket) => {
   onlineusers[socket.handshake.query.phone] = socket.id;
   io.emit("update_Online_users",Object.keys(onlineusers));
-  socket.emit("get_online_users",Object.keys(onlineusers))
-  console.log("user connected ",socket.id);
+  socket.emit("get_online_users",Object.keys(onlineusers));
 
 
   socket.on("disconnect",()=>{
@@ -32,14 +31,12 @@ io.on("connection",(socket) => {
 
   socket.on("Typing",(data) => {
     const {from,too} = data;
-    console.log("from",from);
     io.to(onlineusers[too]).emit("Typing_received",from);
   })
   
   socket.on("NOT_Typing",(data)=>{
     const {from,too} = data;
     io.to(onlineusers[too]).emit("NOT_Typing_received",from);
-
   })
 
   socket.on("all_message_seen",async(data) => {
@@ -49,7 +46,6 @@ io.on("connection",(socket) => {
       to:too,
       seen:false,
     },{seen: true})
-    console.log(from,too)
     io.to(onlineusers[too]).emit("seen",from);
   })
 })
@@ -57,14 +53,12 @@ io.on("connection",(socket) => {
 
 async function handlesendmessage(req,res){
   const {from,tophone,text} = req.body;
-  console.log(from, " ", tophone, " " , text);
   const Msg = new messages({
     from: from,
      to: tophone,
     text: text
   })
   await Msg.save();
-  console.log(onlineusers[tophone]);
   io.to(onlineusers[tophone]).emit("receive-message",Msg);
   return res.json({success:true});
 }

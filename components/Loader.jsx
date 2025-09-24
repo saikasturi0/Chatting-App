@@ -8,7 +8,6 @@ const Loader = () => {
       <img src={logo2} alt="logo" />
       <p>Chatting App</p>
     </div>
-      <div className="loader"></div>
     </div>
   )
 }

@@ -3,11 +3,18 @@ const Contact = require("../models/contacts")
 const twilio = require("twilio");
 const messages = require("../models/messages");
 require("dotenv").config();
-
+const cloudinary  = require("cloudinary").v2;
 
 const accountSid = process.env.Account_SID;
 const authToken = process.env.Auth_Token;
 const twiliophone = process.env.Twilio_Phone;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 const client = twilio(accountSid, authToken);
 const otpStore = {};
 
@@ -81,21 +88,20 @@ async function verifyotp(req, res) {
 // ---------------------- GET CONTACTS ----------------------
 async function getcontacts(req, res) {
   const { username, phone } = req.body;
-  console.log(username," ",phone);
   try {
-    const user = await User.findOne({ phoneNo: phone }).populate("contacts");;
-    if (user) {
+
+    const user = await User.findOne({ phoneNo: phone }).populate("contacts");
+    if(user){
       return res.json({ success: true, contacts: user.contacts });
     }
     return res.status(404).json({ success: false, message: "User not found" });
-  } catch (err) {
+  }catch (err){
     return res.status(500).json({ success: false, message: err.message });
   }
 }
 
 // ---------------------- ADD CONTACT ----------------------
 async function addcontact(req, res) {
-  console.log("add");
   const { userPhone, Contactname, Contactphone } = req.body;
 
   try {
@@ -108,14 +114,13 @@ async function addcontact(req, res) {
         .json({ success: false, message: "User or contact not found" });
     }
 
-
     // Check if contact already exists for current user
     const existingContactDocs = await Contact.find({
       _id: { $in: currentUser.contacts },
       Contactphone: Contactphone,
     });
 
-    if (existingContactDocs.length === 0) {
+    if(existingContactDocs.length === 0) {
       const newContact = new Contact({
         Contactname,
         Contactphone: Contactphone,
@@ -157,28 +162,63 @@ async function addcontact(req, res) {
 // -------------------------get messages ---------------------------------
 async function handlegetmessages(req,res) {
   const {from,to} = req.body;
-  // console.log(from, " ", to);
-  // await messages.insertOne({from,to,text:"thth"});
-  // await messages.insertOne({from: to,to :from,text:"thth2"});
   const Message = await messages.find({
      $or: [
       { from, to },
       { from: to, to: from }
     ]
   });
-    // console.log(Message);
     return res.json({Message:Message});
 }
 
-// -----------------------send message------------------
+// ----------------------- Add Image ------------------
+
+async function handleAddImage(req, res) {
+  try { 
+    const {name, image, phoneNo } = req.body;
+
+    const contactUser = await User.findOne({phoneNo: phoneNo });
+
+    if(contactUser.name != name){
+      contactUser.name = name;
+      await contactUser.save();
+    }
+    if(image != ""){
+      // console.log("before",contactUser.image);
+      const allContacts = await Contact.find({Contactphone: phoneNo });
+      const result = await cloudinary.uploader.upload(image);
+      for(let i=0;i<allContacts.length;i++){
+        allContacts[i].ContactImage = result.secure_url;
+        await allContacts[i].save();
+      }
+      contactUser.image = result.secure_url;
+      await contactUser.save();
+      // console.log("after",contactUser.image);
+      return res.json({ success: true, url: result.secure_url });
+    }
+      return res.json({ success: true, url:contactUser.image});
+
+  } catch (error) { 
+    console.error("Upload error:", JSON.stringify(error, null, 2)); 
+    return res.status(500).json({ success: false, message: "Image upload failed" });
+  }
+}
+
+
+async function handleCurrProfile(req,res) {
+   const {phone} = req.body;
+   const currProfile1 = await User.find({phoneNo: phone});
+   return res.json(currProfile1[0]);
+}
 
 
 
-
-module.exports = {
+module.exports = {  
   sendotp,
   verifyotp,
   getcontacts,
   addcontact,
   handlegetmessages,
+  handleAddImage,
+  handleCurrProfile,
 };
