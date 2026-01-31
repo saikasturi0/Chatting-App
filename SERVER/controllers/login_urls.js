@@ -5,9 +5,9 @@ const messages = require("../models/messages");
 require("dotenv").config();
 const cloudinary  = require("cloudinary").v2;
 
-const accountSid = process.env.Account_SID;
-const authToken = process.env.Auth_Token;
-const twiliophone = process.env.Twilio_Phone;
+// const accountSid = process.env.Account_SID;
+// const authToken = process.env.Auth_Token;
+// const twiliophone = process.env.Twilio_Phone;
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -15,7 +15,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const client = twilio(accountSid, authToken);
+// const client = twilio(accountSid, authToken);
 const otpStore = {};
 
 // Generate OTP
@@ -36,7 +36,7 @@ async function sendotp(req, res) {
     //   from: twiliophone,
     //   to: phone,
     // });
-    return res.json({ success: true, message: "OTP sent" });
+    return res.json({ success: true, message: "OTP sent", otp: otp });
   } catch (error) {
     console.error("Twilio Error:", error);
     return res.status(500).json({ success: false, message: error.message });

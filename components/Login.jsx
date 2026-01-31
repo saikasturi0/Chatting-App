@@ -12,6 +12,7 @@ const Login = () => {
   const [received, setReceived] = useState(0);
   const [message, setMessage] = useState("");
   const [Username,setUsername] = useState("")
+  const [realOtp,setRealOtp] = useState("")
 
   const sendotp = async () => {
     if (phone === "" || Username === "") {
@@ -19,8 +20,9 @@ const Login = () => {
       return;
     }
     try {
-      await axios.post(`${url}/sendotp`, { phone }, { withCredentials: true });
+      const res = await axios.post(`${url}/sendotp`, { phone }, { withCredentials: true });
       setReceived(1);
+      setRealOtp(res.data.otp);
     } catch (error) {
       console.error("Error sending OTP:", error);
       alert("Failed to send OTP. Please try again.");
@@ -34,7 +36,6 @@ const Login = () => {
       { phone, otp, Username },
       { withCredentials: true }
     );
-
     setMessage(res.data.message);
 
     if (res.data.success) {
@@ -78,6 +79,7 @@ const Login = () => {
       {received === 1 && (
         <div className='items-container'>
           <h1>LOGIN</h1>
+          <p>Your otp is {realOtp}</p>
           <input 
             type="text" 
             placeholder='Enter OTP' 
