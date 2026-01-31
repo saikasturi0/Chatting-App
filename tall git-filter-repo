@@ -1,0 +1,35 @@
+[33mcommit 5331faf6055a076a3db82d9a9577b50d6da08911[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: saikasturi0 <saikasturi0@gmail.com>
+Date:   Sat Jan 31 08:18:26 2026 +0530
+
+    Remove .env file from tracking
+
+[33mcommit 038fa9f4c499bfadb627a1e61e7a5262b4341689[m
+Author: saikasturi0 <saikasturi0@gmail.com>
+Date:   Sat Jan 31 08:12:23 2026 +0530
+
+    Initial commit
+
+[33mcommit 092a04f4b15b71f62fc9296dd720122c371740e0[m
+Author: saikasturi0 <saikasturi0@gmail.com>
+Date:   Wed Sep 24 21:55:02 2025 +0530
+
+    first commit
+
+[33mcommit 0b543f1f6607c76f4dc174d744149f7b2b00f5c0[m
+Author: saikasturi0 <saikasturi0@gmail.com>
+Date:   Wed Sep 24 21:43:16 2025 +0530
+
+    Ignore .env file
+
+[33mcommit d9353c635e6c16c94cf7458c1a7b4cae9e1c3c24[m
+Author: saikasturi0 <saikasturi0@gmail.com>
+Date:   Wed Sep 24 21:34:38 2025 +0530
+
+    first commit
+
+[33mcommit 9f8cf8e58e33040c53309229572b2ed7d6354b0a[m
+Author: saikasturi0 <saikasturi0@gmail.com>
+Date:   Sun Jun 29 19:28:34 2025 +0530
+
+    first commit
