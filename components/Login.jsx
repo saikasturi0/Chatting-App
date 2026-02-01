@@ -23,6 +23,7 @@ const Login = () => {
       const res = await axios.post(`${url}/sendotp`, { phone }, { withCredentials: true });
       setReceived(1);
       setRealOtp(res.data.otp);
+      console.log("OTP sent:", res.data.otp);
     } catch (error) {
       console.error("Error sending OTP:", error);
       alert("Failed to send OTP. Please try again.");
