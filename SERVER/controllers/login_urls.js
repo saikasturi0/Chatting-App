@@ -26,7 +26,7 @@ function generateOTP() {
 // ---------------------- SEND OTP ----------------------
 async function sendotp(req, res) {
   const { phone } = req.body;
-  const otp = generateOTP();
+  const otp =  generateOTP();
   otpStore[phone] = otp;
   console.log(otp);
 
