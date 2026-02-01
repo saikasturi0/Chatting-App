@@ -4,7 +4,7 @@ import logo from "./logo.png";
 import axios from 'axios';
 import { createBrowserRouter,useNavigate, Navigate, RouterProvider, Routes } from "react-router-dom"
 
-const url = "https://chatting-app-2-4crr.onrender.com/";
+const url = "https://chatting-app-2-4crr.onrender.com";
 const Login = () => {
   const navigate = useNavigate();
   const [phone, setPhone] = useState("");
