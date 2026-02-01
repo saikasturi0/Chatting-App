@@ -19,7 +19,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: ['http://localhost:5173',
+    'https://chatting-app-2-4crr.onrender.com'
+  ],
   credentials: true
 }));
 
