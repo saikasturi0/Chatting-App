@@ -13,7 +13,7 @@ import { io } from "socket.io-client";
 import "./Chat.css";
 import notify from "../src/assets/notify.mp3"
 
-const url = "http://localhost:5000"
+const url = "https://chatting-app-2-4crr.onrender.com"
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ const Chat = () => {
   const handleUploadImage = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/addImage",
+        "https://chatting-app-2-4crr.onrender.com/addImage",
         {
           name: newusername,
           image: selectedImage == "" ? "" : selectedImage,
