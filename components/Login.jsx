@@ -15,21 +15,32 @@ const Login = () => {
   const [realOtp,setRealOtp] = useState("")
 
   const sendotp = async () => {
-    if (phone === "" || Username === "") {
-      alert("enter proper number");
-      return;
-    }
-    try {
-      const res = await axios.post(`${url}/sendotp`, { phone }, { withCredentials: true });
-      setReceived(1);
-      setRealOtp(res.data.otp);
-      console.log(phone);
-      console.log("OTP sent:", res);
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-      alert("Failed to send OTP. Please try again.");
-    }
+  if (phone === "" || Username === "") {
+    alert("Enter proper details");
+    return;
   }
+
+  try {
+    const res = await axios.post(
+      `${url}/sendotp`,
+      { phone },
+      {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        withCredentials: true
+      }
+    );
+
+    setReceived(1);
+    setRealOtp(res.data.otp);
+    console.log("Phone:", phone);
+    console.log("OTP sent:", res.data.otp);
+  } catch (error) {
+    console.error("Error sending OTP:", error);
+    alert("Failed to send OTP. Please try again.");
+  }
+};
 
   const verifyotp = async () => {
   try {
