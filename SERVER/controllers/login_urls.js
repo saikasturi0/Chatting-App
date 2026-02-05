@@ -30,17 +30,17 @@ async function sendotp(req, res) {
   otpStore[phone] = otp;
   console.log(otp);
 
-  try {
-    // await client.messages.create({
-    //   body: `Your OTP is ${otp}`,
-    //   from: twiliophone,
-    //   to: phone,
-    // });
-    return res.json({ success: true, message: "OTP sent", otp: otp});
-  } catch (error) {
-    console.error("Twilio Error:", error);
-    return res.status(500).json({ success: false, message: error.message });
-  }
+  return res.json({ success: true, message: "OTP sent", otp: otp});
+  // try {
+  //   // await client.messages.create({
+  //   //   body: `Your OTP is ${otp}`,
+  //   //   from: twiliophone,
+  //   //   to: phone,
+  //   // });
+  // } catch (error) {
+  //   console.error("Twilio Error:", error);
+  //   return res.status(500).json({ success: false, message: error.message });
+  // }
 }
 
 // ---------------------- VERIFY OTP ----------------------
