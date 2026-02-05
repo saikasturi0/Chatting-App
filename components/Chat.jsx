@@ -13,7 +13,7 @@ import { io } from "socket.io-client";
 import "./Chat.css";
 import notify from "../src/assets/notify.mp3"
 
-const url = "https://chatting-app-2-4crr.onrender.com"
+const url = "https://chatting-app-2-4crr.onrender.com";
 
 const Chat = () => {
   const navigate = useNavigate();
