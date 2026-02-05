@@ -26,7 +26,7 @@ function generateOTP() {
 // ---------------------- SEND OTP ----------------------
 async function sendotp(req, res) {
   const { phone } = req.body;
-  const otp =  generateOTP();
+  const otp = generateOTP();
   otpStore[phone] = otp;
   console.log(otp);
 
@@ -36,7 +36,7 @@ async function sendotp(req, res) {
     //   from: twiliophone,
     //   to: phone,
     // });
-    return res.json({ success: true, message: "OTP sent", otp: otp });
+    return res.json({ success: true, message: "OTP sent", otp: otp});
   } catch (error) {
     console.error("Twilio Error:", error);
     return res.status(500).json({ success: false, message: error.message });

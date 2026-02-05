@@ -24,7 +24,7 @@ const Login = () => {
       setReceived(1);
       setRealOtp(res.data.otp);
       console.log(phone);
-      console.log("OTP sent:", res.data.otp);
+      console.log("OTP sent:", res);
     } catch (error) {
       console.error("Error sending OTP:", error);
       alert("Failed to send OTP. Please try again.");
