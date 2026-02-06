@@ -3,15 +3,15 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
+// Connect to MongoDB
+mongoose.connect(process.env.mongoose_connect)
+  .then(() => console.log("connected to mongodb"))
+  .catch((err) => console.log(err));
 const {app,server,handlesendmessage} = require("./socket")
 const { verifyotp, sendotp, getcontacts, addcontact, handlegetmessages, handleAddImage, handleCurrProfile } = require("./controllers/login_urls");
 require('dotenv').config();
 
 
-// Connect to MongoDB
-mongoose.connect(process.env.mongoose_connect)
-  .then(() => console.log("connected to mongodb"))
-  .catch((err) => console.log(err));
 
 
 app.use(express.json({ limit: '10mb' }));
