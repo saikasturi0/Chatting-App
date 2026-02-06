@@ -40,6 +40,9 @@ app.use(cookieParser());
 
 
 // Routes
+app.get('/',(req,res)=>{
+  res.send("Hello");
+})
 app.post("/sendotp", sendotp);
 app.post("/verifyotp", verifyotp);
 app.post("/getauth", (req, res) => {
@@ -66,6 +69,7 @@ app.use((req, res) => {
 });
 
 // Start server
-server.listen(5000, () => {
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
   console.log("server started at port 5000");
 });
