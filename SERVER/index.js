@@ -3,16 +3,24 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-// Connect to MongoDB
-mongoose.connect(process.env.mongoose_connect)
-  .then(() => console.log("connected to mongodb"))
-  .catch((err) => console.log(err));
+const {MongoClient} = require("mongodb");
 const {app,server,handlesendmessage} = require("./socket")
 const { verifyotp, sendotp, getcontacts, addcontact, handlegetmessages, handleAddImage, handleCurrProfile } = require("./controllers/login_urls");
 require('dotenv').config();
 
 
+// Connect to MongoDB
+async function connectToDB(){
+  const client = new MongoClient(process.env.mongoose_connect);
+  try{
+    await client.connect();
+    console.log("DB connected successfully");
+  }catch(err){
+    console.log("DB connection faild", err);
+  }
+}
 
+connectToDB();
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -20,8 +28,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Middleware
 app.use(cors({
   origin: ['http://localhost:5173',
-    'https://chatting-app-2-4crr.onrender.com',
-    'https://chatting-app-1-19ig.onrender.com'
+    'https://chatting-app-2-4crr.onrender.com'
   ],
   credentials: true
 }));
@@ -41,8 +48,8 @@ app.use(cookieParser());
 
 
 // Routes
-app.get('/',(req,res)=>{
-  res.send("Hello");
+app.get("/",(req,res)=>{
+  res.send("Hello");p
 })
 app.post("/sendotp", sendotp);
 app.post("/verifyotp", verifyotp);
@@ -70,7 +77,6 @@ app.use((req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
+server.listen(5000, () => {
   console.log("server started at port 5000");
 });
