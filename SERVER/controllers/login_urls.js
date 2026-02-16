@@ -58,7 +58,7 @@ async function verifyotp(req, res) {
     }
 
     if(record.otp == otp) {
-      await otp.deleteOne({phone});
+      await OTP.deleteOne({phone});
 
       res.cookie("user", Username, {
         httpOnly: true,
