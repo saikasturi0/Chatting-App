@@ -4,6 +4,7 @@ const twilio = require("twilio");
 const messages = require("../models/messages");
 require("dotenv").config();
 const cloudinary  = require("cloudinary").v2;
+const OTP = require("../models/otp")
 
 // const accountSid = process.env.Account_SID;
 // const authToken = process.env.Auth_Token;
@@ -16,8 +17,6 @@ cloudinary.config({
 });
 
 // const client = twilio(accountSid, authToken);
-const otpStore = {};
-
 // Generate OTP
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -28,8 +27,12 @@ async function sendotp(req, res) {
   const { phone } = req.body;
   console.log("Phone number received:", phone);
   const otp = generateOTP();
-  otpStore[phone] = otp;
-  console.log(otp);
+
+  await OTP.findOneAndUpdate(
+    {phone}, 
+    {otp, createdAt : new Date()}, 
+    {upsert: true}
+  );
 
   return res.json({ success: true, message: "OTP sent", otp: otp});
   // try {
@@ -48,9 +51,14 @@ async function sendotp(req, res) {
 async function verifyotp(req, res) {
   try {
     const { phone, otp, Username } = req.body;
+    const record = await OTP.findOne({phone});
 
-    if (otpStore[phone] === otp) {
-      delete otpStore[phone];
+    if(!record){
+       return res.status(400).json({ message: "OTP expired" });
+    }
+
+    if(record.otp == otp) {
+      await otp.deleteOne({phone});
 
       res.cookie("user", Username, {
         httpOnly: true,
