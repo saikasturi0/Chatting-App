@@ -4,7 +4,7 @@ const twilio = require("twilio");
 const messages = require("../models/messages");
 require("dotenv").config();
 const cloudinary  = require("cloudinary").v2;
-const OTP = require("../models/otp")
+const OTP = require("../models/Otp")
 
 // const accountSid = process.env.Account_SID;
 // const authToken = process.env.Auth_Token;
