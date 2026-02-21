@@ -81,7 +81,7 @@ app.post("/sendotp", sendotp);
 app.post("/verifyotp", verifyotp);
 app.post("/getauth", (req, res) => {
   const token = req.cookies.user;
-
+  console.log(token);
   if (token) {
     res.json({ success: true });
   } else {
